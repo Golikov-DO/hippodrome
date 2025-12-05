@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{YYYY-MM-dd HH:mm:ss},%03L %level %c{1}: %msg%n"/>
-        </Console>
+        <RollingFile name="RollingFile" fileName="logs/hippodrome.log" filePattern="logs/app.%d{yyyy-MM-dd}.log.gz">
+            <PatternLayout pattern="%d %level %c{1}: %msg%n"/>
+            <TimeBasedTriggeringPolicy />
+            <DefaultRolloverStrategy>
+                <Delete basePath="logs/">
+                    <IfFileName glob="*/app-*.log.gz" />
+                    <IfLastModified age="7d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
     </Appenders>
     <Loggers>
         <Root level="debug">
-            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
         </Root>
-        <Logger name="Main" level="info" additivity="false">
-            <AppenderRef ref="Console"/>
-        </Logger>
-        <Logger name="Hippodrome" level="debug" additivity="false">
-            <AppenderRef ref="Console"/>
-        </Logger>
-        <Logger name="Horse" level="debug" additivity="false">
-            <AppenderRef ref="Console"/>
-        </Logger>
     </Loggers>
 </Configuration>
